@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/gradientDisplay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/blue_a400"
+        android:layout_margin="30dp"
+        android:contentDescription="gradientDisplay"
+        tools:ignore="HardcodedText" />
+</LinearLayout>
