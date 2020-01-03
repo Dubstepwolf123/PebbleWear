@@ -3,6 +3,7 @@ package com.example.pebblewear
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
+import android.os.Build
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -49,6 +50,10 @@ class OverviewAdapter(context: Context, map: ArrayList<HashMap<String, String>>)
             gradientDrawable.shape = GradientDrawable.OVAL
             holder.gradient.background = gradientDrawable
             holder.gradient.transitionName = details["backgroundName"]
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P){
+                holder.gradient.outlineSpotShadowColor = endColour
+                holder.gradient.outlineAmbientShadowColor = endColour
+            }
         } catch (e: Exception) {
             Log.e("ERR", "pebble_wear.overview_adapter.on_bind_view_holder: " + e.localizedMessage)
         }

@@ -13,7 +13,7 @@ import com.android.volley.toolbox.Volley
 import org.json.JSONObject
 import java.lang.Exception
 
-class MainActivity : WearableActivity() {
+class Connecting : WearableActivity() {
 
     private lateinit var animationView:ImageView
 
@@ -42,7 +42,6 @@ class MainActivity : WearableActivity() {
         val url = "https://script.google.com/macros/s/AKfycbwFkoSBTbmeB6l9iIiZWGczp9sDEjqX0jiYeglczbLKFAXsmtB1/exec?action=getItems"
 
         val request = StringRequest(Request.Method.GET, url, Response.Listener<String> { response ->
-                Toast.makeText(this, "here", Toast.LENGTH_SHORT).show()
 
             try {
                 var strResponse = response.toString()
@@ -50,7 +49,14 @@ class MainActivity : WearableActivity() {
                 val jsonArray = jsonOBJ.getJSONArray("items")
                 val list: ArrayList<HashMap<String, String>> = ArrayList()
 
-                for (i in 0 until jsonArray.length()) {
+                /*var menu: HashMap<String, String> = HashMap()
+                menu["backgroundName"] = "Settings"
+                menu["startColour"] = "#80808080"
+                menu["endColour"] = "#80808080"
+                list.add(menu)
+                display.putExtra("list", list)*/
+
+                for (i in jsonArray.length() -1 downTo 0) {
                     var jsonInner: JSONObject = jsonArray.getJSONObject(i)
 
                     var str_background = jsonInner.getString("backgroundName")
