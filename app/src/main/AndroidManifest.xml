@@ -13,7 +13,8 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Main">
-        <activity android:name=".Details"></activity>
+        <activity android:name=".Settings"></activity>
+        <activity android:name=".Details" />
 
         <uses-library
             android:name="com.google.android.wearable"

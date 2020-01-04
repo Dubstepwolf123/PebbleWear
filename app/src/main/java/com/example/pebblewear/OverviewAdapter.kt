@@ -55,6 +55,7 @@ class OverviewAdapter(context: Context, map: ArrayList<HashMap<String, String>>,
                 holder.gradient.outlineSpotShadowColor = endColour
                 holder.gradient.outlineAmbientShadowColor = endColour
             }
+
         } catch (e: Exception) {
             Log.e("ERR", "pebble_wear.overview_adapter.on_bind_view_holder: " + e.localizedMessage)
         }

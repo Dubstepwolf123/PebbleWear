@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.View
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.wear.widget.WearableRecyclerView
@@ -19,6 +20,7 @@ class Overview : WearableActivity(), OverviewAdapter.OnGradientListener  {
     lateinit var all: ArrayList<HashMap<String, String>>
 
     lateinit var gradientList: WearableRecyclerView
+    lateinit var layoutManager: LinearLayoutManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +35,7 @@ class Overview : WearableActivity(), OverviewAdapter.OnGradientListener  {
 
                 v.scrollBy(0, delta.roundToInt())
 
+
                 return@OnGenericMotionListener true
             }
 
@@ -45,24 +48,26 @@ class Overview : WearableActivity(), OverviewAdapter.OnGradientListener  {
         // Enables Always-on
         setAmbientEnabled()
         get()
-
     }
 
     fun get() {
         all = intent.getSerializableExtra("list") as ArrayList<HashMap<String, String>>
         val displayAdapter = OverviewAdapter(applicationContext, all, this)
-        val layoutManager =
+        layoutManager =
             LinearLayoutManager(applicationContext, LinearLayoutManager.VERTICAL, false)
         gradientList.layoutManager = layoutManager
         gradientList.adapter = displayAdapter
         //Log.e("Info", all.toString())
+
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
         return if (event.repeatCount == 0) {
             when (keyCode) {
                 KeyEvent.KEYCODE_STEM_1 -> {
-                    hardwareButton(0)
+                    //hardwareButton(0)
+                    startActivity(Intent(this, Connecting::class.java))
+                    finish()
                     true
                 }
                 KeyEvent.KEYCODE_STEM_2 -> {
@@ -91,5 +96,6 @@ class Overview : WearableActivity(), OverviewAdapter.OnGradientListener  {
             gradientList.smoothScrollToPosition(position)
         }
     }
+
 }
 
