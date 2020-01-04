@@ -1,9 +1,9 @@
 package com.example.pebblewear
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.wearable.activity.WearableActivity
 import android.support.wearable.input.RotaryEncoder
-import android.support.wearable.input.WearableButtons
 import android.util.Log
 import android.view.KeyEvent
 import android.view.MotionEvent
@@ -12,8 +12,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.wear.widget.WearableRecyclerView
 import kotlin.math.roundToInt
+import kotlin.random.Random
 
-class Overview : WearableActivity() {
+class Overview : WearableActivity(), OverviewAdapter.OnGradientListener  {
 
     lateinit var all: ArrayList<HashMap<String, String>>
 
@@ -21,7 +22,7 @@ class Overview : WearableActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_display)
+        setContentView(R.layout.display_layout)
 
         val snapHelper = LinearSnapHelper()
         gradientList = this.findViewById(R.id.gradientList)
@@ -49,7 +50,7 @@ class Overview : WearableActivity() {
 
     fun get() {
         all = intent.getSerializableExtra("list") as ArrayList<HashMap<String, String>>
-        val displayAdapter = OverviewAdapter(applicationContext, all)
+        val displayAdapter = OverviewAdapter(applicationContext, all, this)
         val layoutManager =
             LinearLayoutManager(applicationContext, LinearLayoutManager.VERTICAL, false)
         gradientList.layoutManager = layoutManager
@@ -61,7 +62,11 @@ class Overview : WearableActivity() {
         return if (event.repeatCount == 0) {
             when (keyCode) {
                 KeyEvent.KEYCODE_STEM_1 -> {
-                    //gradientList.smoothScrollToPosition(0)
+                    hardwareButton(0)
+                    true
+                }
+                KeyEvent.KEYCODE_STEM_2 -> {
+                    hardwareButton((0 until all.size).random())
                     true
                 }
                 else -> {
@@ -73,18 +78,17 @@ class Overview : WearableActivity() {
         }
     }
 
-    override fun onKeyLongPress(keyCode: Int, event: KeyEvent): Boolean {
-        return if (event.repeatCount == 0) {
-            when (keyCode) {
-                KeyEvent.KEYCODE_STEM_1 -> {
-                    gradientList.scrollToPosition(0)
-                    true
-                } else -> {
-                super.onKeyLongPress(keyCode, event)
-                }
-            }
+    override fun onGradientClick(position: Int) {
+        Log.d("DEBUG", "clicked: $position")
+        /*var details = Intent(this, Details::class.java)
+        var gradientName = */
+    }
+
+    private fun hardwareButton(position: Int) {
+        if (Values.instantScroll) {
+            gradientList.scrollToPosition(position)
         } else {
-            super.onKeyLongPress(keyCode, event)
+            gradientList.smoothScrollToPosition(position)
         }
     }
 }

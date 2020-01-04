@@ -11,12 +11,13 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 
-class OverviewAdapter(context: Context, map: ArrayList<HashMap<String, String>>) :
+class OverviewAdapter(context: Context, map: ArrayList<HashMap<String, String>>, onGradientListener: OnGradientListener) :
     RecyclerView.Adapter<OverviewAdapter.ViewHolder>() {
 
     private var context: Context = context
     private var map: ArrayList<HashMap<String, String>> = map
     private var layoutInflater: LayoutInflater
+    private var onGradientListener: OnGradientListener = onGradientListener
 
     override fun getItemCount(): Int {
         try {
@@ -34,7 +35,7 @@ class OverviewAdapter(context: Context, map: ArrayList<HashMap<String, String>>)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = this.layoutInflater.inflate(R.layout.gradient_display, parent, false)
-        return ViewHolder(view)
+        return ViewHolder(view, onGradientListener)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -59,9 +60,22 @@ class OverviewAdapter(context: Context, map: ArrayList<HashMap<String, String>>)
         }
     }
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        internal var gradient: ImageView = itemView.findViewById(R.id.gradientDisplay)
+    inner class ViewHolder(itemView: View, onGradientListener: OnGradientListener) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
+        internal var gradient: ImageView
+        internal var onGradientListener:OnGradientListener
+        init {
+            gradient = itemView.findViewById(R.id.gradientDisplay)
+            this.onGradientListener = onGradientListener
+
+            itemView.setOnClickListener(this)
+        }
+        override fun onClick(view: View) {
+            onGradientListener.onGradientClick(adapterPosition)
+        }
     }
 
+    interface OnGradientListener {
+        fun onGradientClick(position: Int)
+    }
 
 }

@@ -3,7 +3,7 @@
     package="com.example.pebblewear">
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <uses-feature android:name="android.hardware.type.watch" />
 
@@ -13,10 +13,11 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Main">
+        <activity android:name=".Details"></activity>
+
         <uses-library
             android:name="com.google.android.wearable"
             android:required="true" />
-
         <!--
                Set to true if your app is Standalone, that is, it does not require the handheld
                app to run.
@@ -27,7 +28,7 @@
 
         <activity
             android:name=".Overview"
-            android:label="@string/title_activity_display"></activity>
+            android:label="@string/title_activity_display" />
         <activity
             android:name=".Connecting"
             android:label="@string/app_name">

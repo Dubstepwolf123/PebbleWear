@@ -25,7 +25,7 @@ object Values {
     fun loadValues(context: Context) {
         val sharedPreferences = context.getSharedPreferences(SAVE, Context.MODE_PRIVATE)
         lastVersion = sharedPreferences.getInt("lastVersion", 0)
-        crownScrollSpeed = sharedPreferences.getFloat("crownScrollSpeed", 1.0f)
+        crownScrollSpeed = sharedPreferences.getFloat("crownScrollSpeed", 1.5f)
         instantScroll = sharedPreferences.getBoolean("instantScroll", false)
     }
 

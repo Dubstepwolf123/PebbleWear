@@ -4,42 +4,31 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.wearable.activity.WearableActivity
 import android.util.Log
-import android.widget.ImageView
-import android.widget.Toast
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import org.json.JSONObject
-import java.lang.Exception
 
 class Connecting : WearableActivity() {
-
-    private lateinit var animationView:ImageView
 
     private lateinit var display: Intent
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.connecting_layout)
+        Values.loadValues(this)
 
         // Enables Always-on
         setAmbientEnabled()
-        setUI()
         getData()
         display = Intent(this, Overview::class.java)
     }
 
-    fun setUI(){
-        /*animationView = findViewById(R.id.animationView)
-        animationView.setBackgroundResource(R.drawable.loading_animation)
-        val animationDrawable = animationView.background as AnimationDrawable
-        animationDrawable.start()*/
-    }
-
-    fun getData(){
+    fun getData() {
         val queue = Volley.newRequestQueue(this)
-        val url = "https://script.google.com/macros/s/AKfycbwFkoSBTbmeB6l9iIiZWGczp9sDEjqX0jiYeglczbLKFAXsmtB1/exec?action=getItems"
+        val url =
+            "https://script.google.com/macros/s/AKfycbwFkoSBTbmeB6l9iIiZWGczp9sDEjqX0jiYeglczbLKFAXsmtB1/exec?action=getItems"
 
         val request = StringRequest(Request.Method.GET, url, Response.Listener<String> { response ->
 
@@ -49,14 +38,7 @@ class Connecting : WearableActivity() {
                 val jsonArray = jsonOBJ.getJSONArray("items")
                 val list: ArrayList<HashMap<String, String>> = ArrayList()
 
-                /*var menu: HashMap<String, String> = HashMap()
-                menu["backgroundName"] = "Settings"
-                menu["startColour"] = "#80808080"
-                menu["endColour"] = "#80808080"
-                list.add(menu)
-                display.putExtra("list", list)*/
-
-                for (i in jsonArray.length() -1 downTo 0) {
+                for (i in jsonArray.length() - 1 downTo 0) {
                     var jsonInner: JSONObject = jsonArray.getJSONObject(i)
 
                     var str_background = jsonInner.getString("backgroundName")
@@ -75,12 +57,12 @@ class Connecting : WearableActivity() {
                 }
                 startActivity(display)
                 finish()
-            }catch (e:Exception){
+            } catch (e: Exception) {
                 Log.e("Err", "pebble_wear.main_activity: " + e.localizedMessage)
             }
 
 
-            },
+        },
             Response.ErrorListener {})
         queue.add(request)
     }
